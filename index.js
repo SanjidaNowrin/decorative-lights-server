@@ -31,6 +31,7 @@ async function run() {
     const productsCollection = database.collection("products");
     const cart_Collection = database.collection("cart");
     const usersCollection = database.collection("users");
+    const reviewCollection = database.collection("reviews");
 
     //get api
 
@@ -137,6 +138,11 @@ async function run() {
     });
 
     //manage all order
+    app.get("/allOrders", async (req, res) => {
+      const cursor = cart_Collection.find({});
+      const services = await cursor.toArray();
+      res.send(services);
+    });
     app.delete("/deleteEvent/:id", async (req, res) => {
       console.log(req.params.id);
       const result = await cart_Collection.deleteOne({
@@ -145,7 +151,7 @@ async function run() {
       res.send(result);
     });
     //update
-    app.put("/confirmation/:id", async (req, res) => {
+    app.put("/allOrders/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const event = {
@@ -155,6 +161,18 @@ async function run() {
       };
       const result = await cart_Collection.updateOne(query, event);
       res.json(result);
+    });
+    //addreview
+    app.get("/reviews", async (req, res) => {
+      const cursor = reviewCollection.find({});
+      const reviews = await cursor.toArray();
+      res.send(reviews);
+    });
+
+    app.post("/addreview", async (req, res) => {
+      console.log(req.body);
+      const result = await reviewCollection.insertOne(req.body);
+      console.log(result);
     });
   } finally {
     //await client.close()
