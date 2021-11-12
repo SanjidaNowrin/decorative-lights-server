@@ -96,14 +96,6 @@ async function run() {
         });
         console.log(documents);
       }
-      // else {
-      //   const role = "admin";
-      //   const result3 = await usersCollection.insertOne(req.body.email, {
-      //     role: role,
-      //   });
-      // }
-
-      // console.log(result);
     });
 
     // check admin or not
