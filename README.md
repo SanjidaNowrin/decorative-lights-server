@@ -12,7 +12,11 @@
 
 ### . Using more products section users will be able to see all our lamps collection.
 
-### . Users have review,payment and my order feature.Payment system will be updated as soon as possible.
+### . Users have review,payment and my order feature.
+
+### . Users can make reviews for products and also they can view their reviews on Home Page with dynamic star ratings that they are given when posting review.
+
+### . Using stripe payment method users can easily pay for their desire product.
 
 ### . Users can easily buy our products by login their accounts.If they visit first time in our website they need to register then they will be able to login their account.
 

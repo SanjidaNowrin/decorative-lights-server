@@ -156,6 +156,7 @@ async function run() {
       const result = await cart_Collection.updateOne(query, event);
       res.json(result);
     });
+
     //addreview
     app.get("/reviews", async (req, res) => {
       const cursor = reviewCollection.find({});
