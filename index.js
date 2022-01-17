@@ -3,10 +3,12 @@ const { MongoClient } = require("mongodb");
 const ObjectId = require("mongodb").ObjectId;
 
 const cors = require("cors");
+const app = express();
 //dotenv
 require("dotenv").config();
 
-const app = express();
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
+
 const port = process.env.PORT || 5000;
 
 //middleware
@@ -165,6 +167,51 @@ async function run() {
       console.log(req.body);
       const result = await reviewCollection.insertOne(req.body);
       console.log(result);
+    });
+
+    //payment
+    app.get("/payments/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await cart_Collection.findOne(query);
+      res.json(result);
+    });
+    //update
+    app.put("/payments/:id", async (req, res) => {
+      const id = req.params.id;
+      const payment = req.body;
+      const filter = { _id: ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          payment: payment,
+        },
+      };
+      const result = await cart_Collection.updateOne(filter, updateDoc);
+      res.json(result);
+    });
+
+    app.post("/payment", cors(), async (req, res) => {
+      let { amount, id } = req.body;
+      try {
+        const payment = await stripe.paymentIntents.create({
+          amount,
+          currency: "USD",
+          description: "ALAMP",
+          payment_method: id,
+          confirm: true,
+        });
+        console.log("Payment", payment);
+        res.json({
+          message: "Payment successful",
+          success: true,
+        });
+      } catch (error) {
+        console.log("Error", error);
+        res.json({
+          message: "Payment failed",
+          success: false,
+        });
+      }
     });
   } finally {
     //await client.close()
