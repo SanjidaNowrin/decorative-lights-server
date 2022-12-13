@@ -46,7 +46,6 @@ async function run() {
     // load single service get api
     app.get("/products/:id", async (req, res) => {
       const id = req.params.id;
-      console.log("getting specific service", id);
       const query = { _id: ObjectId(id) };
       const products = await productsCollection.findOne(query);
       res.json(products);
@@ -70,8 +69,8 @@ async function run() {
 
     // add data to cart collection with additional info
     app.post("/product/add", async (req, res) => {
-      const course = req.body;
-      const result = await cart_Collection.insertOne(course);
+      const product = req.body;
+      const result = await cart_Collection.insertOne(product);
       res.json(result);
     });
 
