@@ -15,9 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const uri = `mongodb+srv://${process.env.MONGO_CONNECTION_STRING}:${process.env.MONGO_CONNECTION_PASS}@cluster0.uj11r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-console.log(uri);
-// const uri = process.env.MONGO_CONNECTION_STRING;
+const uri = process.env.MONGO_CONNECTION_STRING;
 //console.log(uri);
 
 const client = new MongoClient(uri, {
